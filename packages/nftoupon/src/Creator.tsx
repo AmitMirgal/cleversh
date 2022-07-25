@@ -40,6 +40,7 @@ import {
 } from "./common/constants";
 import { Connect } from "./components/Connect";
 import isEmpty from "lodash/isEmpty";
+import isNumber from "lodash/isNumber";
 import { fetcher } from "./common/helper";
 import confetti from "canvas-confetti";
 import { Toaster, toast } from "react-hot-toast";
@@ -59,7 +60,7 @@ const DETAILS = {
   status: "",
   merchantCryptoWalletAddress: "",
   cryptoWalletAddress: "",
-  date: "",
+  nftoupon_date: "",
   offer: "",
   tokenId: "",
   tokenOfferIndex: "",
@@ -321,7 +322,6 @@ export const Creator = ({ NFToupon_Key }: Props) => {
     xummPayload,
     NFToupon_Key,
   ]);
-
   return (
     <ChakraProvider>
       <Toaster
@@ -360,21 +360,21 @@ export const Creator = ({ NFToupon_Key }: Props) => {
                 direction={{ base: "column", sm: "row" }}
                 justify="space-between"
               >
-                {isEmpty(details.id) ? (
-                  <Text fontSize="md" fontWeight="bold">
-                    NFToupon
-                  </Text>
-                ) : (
+                {isNumber(details.id) ? (
                   <Icon
-                    onClick={() => {
-                      setNftDetailIndex(0);
-                      setDetails(DETAILS);
-                    }}
-                    as={FiArrowLeft}
-                    boxSize="5"
-                    color="muted"
-                    cursor="pointer"
-                  />
+                  onClick={() => {
+                    setNftDetailIndex(0);
+                    setDetails(DETAILS);
+                  }}
+                  as={FiArrowLeft}
+                  boxSize="5"
+                  color="muted"
+                  cursor="pointer"
+                />
+                ) : (
+                  <Text fontSize="md" fontWeight="bold">
+                  NFToupon
+                </Text>
                 )}
 
                 <Stack spacing="0.2" alignItems={"end"}>
@@ -460,7 +460,7 @@ export const Creator = ({ NFToupon_Key }: Props) => {
               </Box>
 
               <Container maxW="lg" pt={5}>
-                {isEmpty(details.id) && (
+                {!isNumber(details.id) && (
                   <>
                     <Textarea
                       resize={"none"}
@@ -500,7 +500,7 @@ export const Creator = ({ NFToupon_Key }: Props) => {
                       <InputLeftElement pointerEvents="none">
                         <FiCalendar />
                       </InputLeftElement>
-                      <Input isReadOnly={true} value={details.date} />
+                      <Input isReadOnly={true} value={new Date(details.nftoupon_date).toString()} />
                     </InputGroup>
                   </Stack>
                 )}
@@ -516,7 +516,7 @@ export const Creator = ({ NFToupon_Key }: Props) => {
                   direction={{ base: "column", md: "row" }}
                   spacing="3"
                 >
-                  {!isEmpty(details.id) && details.status !== "Declined" ? (
+                  {isNumber(details.id) && details.status !== "Declined" ? (
                     <>
                       {details.status === "Pending" ||
                       details.status === "Rejected" ? (
