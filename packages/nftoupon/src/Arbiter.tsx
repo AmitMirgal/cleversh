@@ -46,6 +46,16 @@ import { NftModal } from "./components/NftModal";
 import useSWR from "swr";
 
 const DETAILS = {
+  Project: {
+    id: '',
+    name: null,
+    crypto_wallet_address: '',
+    description: null,
+    website: null,
+    created_at: null,
+    updated_at: null,
+    user_id: 0,
+  },  
   id: "",
   title: "",
   imageUrl: "",
@@ -415,7 +425,7 @@ export const Arbiter = ({ NFToupon_Key }: Props) => {
                               status: "Offered",
                               expiryDate: expiryDate,
                               offer: offer,
-                              cryptoWalletAddress: details.cryptoWalletAddress,
+                              cryptoWalletAddress: details?.Project?.crypto_wallet_address,
                               tokenId: details.tokenId,
                             });
                           }}
