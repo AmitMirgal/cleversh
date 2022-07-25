@@ -121,7 +121,6 @@ export const Creator = ({ NFToupon_Key }: Props) => {
   };
 
   const updateNFTDetails = (index: number) => {
-    console.log(nfTouponData)
     setNftDetailIndex(index);
     setDetails(nfTouponData?.nftoupons[index]);
   };
@@ -323,7 +322,6 @@ export const Creator = ({ NFToupon_Key }: Props) => {
     xummPayload,
     NFToupon_Key,
   ]);
-  console.log(Date.parse(details.nftoupon_date), details.nftoupon_date, details)
   return (
     <ChakraProvider>
       <Toaster
