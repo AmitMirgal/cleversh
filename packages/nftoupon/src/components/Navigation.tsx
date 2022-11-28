@@ -1,8 +1,8 @@
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/20/solid";
 
 const pages = [
-  { name: "Profile", tab: 2, current: true },
-  { name: "Stats", tab: 3, current: false },
+  { name: "NFT", tab: 2, current: true },
+  { name: "Activity", tab: 3, current: false },
 ];
 
 type NavigationProps = {
@@ -27,7 +27,7 @@ export default function Navigation(props: NavigationProps) {
           </div>
         </li>
         {pages.map((page) => {
-          if (page.name === "Stats") {
+          if (page.name === "Activity") {
             return (
               <li key={page.name}>
                 <div className="flex items-center">

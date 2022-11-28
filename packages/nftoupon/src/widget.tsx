@@ -3,69 +3,9 @@ import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Navigation from "./components/Navigation";
 import Home from "./components/Home";
-import Profile from "./components/Profile";
-import Stats from "./components/Stats";
+import Activity from "./components/Activity";
 import { Footer } from "./components/Footer";
-
-import {
-  KnockFeedProvider,
-  NotificationFeed,
-} from "@knocklabs/react-notification-feed";
-import toast, { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
-import { useKnockFeed } from "@knocklabs/react-notification-feed";
-
-const NotificationToaster = () => {
-  const { feedClient } = useKnockFeed();
-
-  const onNotificationsReceived = ({ items }: any) => {
-    // Whenever we receive a new notification from our real-time stream, show a toast
-    // (note here that we can receive > 1 items in a batch)
-    items.forEach((notification: any) => {
-      toast(notification.blocks[0].rendered, { id: notification.id });
-    });
-
-    // Optionally, you may want to mark them as "seen" as well
-    feedClient.markAsSeen(items);
-  };
-
-  useEffect(() => {
-    // Receive all real-time notifications on our feed
-    feedClient.on("items.received.realtime", onNotificationsReceived);
-
-    // Cleanup
-    return () =>
-      feedClient.off("items.received.realtime", onNotificationsReceived);
-  }, [feedClient]);
-
-  return <Toaster />;
-};
-
-export default NotificationToaster;
-
-const NotificationToastProducer = () => {
-  return (
-    <KnockFeedProvider
-      apiKey={"pk_test_6aCsi7Uq-RPQHczDCljlrTgQtbnlZs09J57MuWJEQTQ"}
-      feedId={"7e262cc5-0265-437d-8837-859ca4dcc8fc"}
-      userId={"1"}
-    >
-      <NotificationFeed />
-    </KnockFeedProvider>
-  );
-};
-
-const NotificationInbox = () => {
-  return (
-    <KnockFeedProvider
-      apiKey={"pk_test_6aCsi7Uq-RPQHczDCljlrTgQtbnlZs09J57MuWJEQTQ"}
-      feedId={"7e262cc5-0265-437d-8837-859ca4dcc8fc"}
-      userId={"1"}
-    >
-      <NotificationFeed />
-    </KnockFeedProvider>
-  );
-};
+import Nft from "./components/Nft";
 
 export function Widget() {
   const [tab, setTab] = useState(0);
@@ -95,10 +35,12 @@ export function Widget() {
   let Component: JSX.Element | null = null;
   switch (tab) {
     case 2:
-      Component = <Profile />;
+      Component = (
+        <Nft uploadFile={uploadFile} imageURL={base64String} reset={reset} />
+      );
       break;
     case 3:
-      Component = <Stats />;
+      Component = <Activity />;
       break;
     default:
       Component = (

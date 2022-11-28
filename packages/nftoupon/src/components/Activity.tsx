@@ -6,7 +6,7 @@ const stats = [
   { name: "Avg. Click Rate", stat: "24.57%" },
 ];
 
-export default function Stats() {
+export default function Activity() {
   return (
     <div>
       <h3 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">

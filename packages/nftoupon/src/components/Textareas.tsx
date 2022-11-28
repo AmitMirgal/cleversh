@@ -6,7 +6,7 @@ function classNames(...classes: any) {
 
 export default function Textarea() {
   return (
-    <form action="#">
+    <div>
       <Tab.Group>
         <>
           <Tab.List className="flex items-center">
@@ -14,9 +14,9 @@ export default function Textarea() {
               className={({ selected }) =>
                 classNames(
                   selected
-                    ? "text-gray-900 bg-gray-100 hover:bg-gray-200"
+                    ? "text-indigo-900 dark:text-white bg-gray-100 hover:bg-gray-200"
                     : "text-gray-500 hover:text-gray-900 bg-white hover:bg-gray-100",
-                  "rounded-md border border-transparent px-3 py-1.5 text-sm font-medium"
+                  "rounded-md border border-transparent px-3 py-1.5 text-sm font-medium dark:bg-slate-800"
                 )
               }
             >
@@ -26,9 +26,9 @@ export default function Textarea() {
               className={({ selected }) =>
                 classNames(
                   selected
-                    ? "text-gray-900 bg-gray-100 hover:bg-gray-200"
+                    ? "text-indigo-900 dark:text-white bg-gray-100 hover:bg-gray-200"
                     : "text-gray-500 hover:text-gray-900 bg-white hover:bg-gray-100",
-                  "ml-2 rounded-md border border-transparent px-3 py-1.5 text-sm font-medium"
+                  "ml-2 rounded-md border border-transparent px-3 py-1.5 text-sm font-medium dark:bg-slate-800"
                 )
               }
             >
@@ -53,14 +53,12 @@ export default function Textarea() {
             </Tab.Panel>
             <Tab.Panel className="-m-0.5 rounded-lg p-0.5">
               <div className="border-b">
-                <div className="mx-px mt-px px-3 pt-2 pb-12 text-sm leading-5 text-gray-800 dark:text-white">
-                  Preview content will render here.
-                </div>
+                <div className="mx-px mt-px px-3 pt-2 pb-12 text-sm leading-5 text-gray-800 dark:text-white"></div>
               </div>
             </Tab.Panel>
           </Tab.Panels>
         </>
       </Tab.Group>
-    </form>
+    </div>
   );
 }
