@@ -1,58 +1,54 @@
 import Textarea from "./Textareas";
-import { BackwardIcon, RocketLaunchIcon } from "@heroicons/react/20/solid";
+import { BackwardIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { drawCanvas } from "../common/helper";
 import Modal from "./Modal";
 import { useState } from "react";
 
-type HomeProps = {
-  uploadFile: (event: any) => void;
-  imageURL: string | null;
-  reset: () => void;
-};
-
-const Home = (props: HomeProps) => {
-  const { uploadFile, imageURL, reset } = props;
-
+const Home = () => {
   return (
     <>
-      <div className="mt-1 pb-5 sm:col-span-2 sm:mt-0">
-        <canvas
-          className="flex h-72 w-full justify-center rounded-md border-2 border-line border-gray-300 px-6 pt-5 pb-6"
-          id="canvas"
-        ></canvas>
-      </div>
-
-      <div className="pb-5 ">
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700 dark:text-white"
-        >
-          Title
-        </label>
-        <div className="mt-1">
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className="block w-full rounded-md dark:bg-slate-800 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="creative nft name"
-          />
+      <div className="pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
+        <div className="mx-auto max-w-7xl lg:px-8">
+          <div>
+            <a
+              href="#"
+              className="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
+            >
+              <span className="rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
+                We're hiring
+              </span>
+              <span className="ml-4 text-sm">Visit our careers page</span>
+              <ChevronRightIcon
+                className="ml-2 h-5 w-5 text-gray-500"
+                aria-hidden="true"
+              />
+            </a>
+            <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
+              <span className="block">A better way to</span>
+              <span className="block bg-gradient-to-r from-teal-200 to-cyan-400 bg-clip-text pb-3 text-transparent sm:pb-5">
+                ship web apps
+              </span>
+            </h1>
+            <blockquote>
+              <div>
+                <svg
+                  className="h-12 w-12 text-white opacity-25"
+                  fill="currentColor"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                >
+                  <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
+                </svg>
+                <p className="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
+                  Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure
+                  qui Lorem cupidatat commodo. Elit sunt amet fugiat veniam
+                  occaecat fugiat.
+                </p>
+              </div>
+            </blockquote>
+          </div>
         </div>
       </div>
-
-      <Textarea />
-
-      <button
-        type="button"
-        onClick={drawCanvas}
-        className="mt-3 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-      >
-        Mint
-        <RocketLaunchIcon
-          className="animate-bounce ml-3 -mr-1 h-5 w-5"
-          aria-hidden="true"
-        />
-      </button>
     </>
   );
 };
