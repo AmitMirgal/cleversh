@@ -5,7 +5,6 @@ import Navigation from "./components/Navigation";
 import Home from "./components/Home";
 import Review from "./components/Review";
 import { Footer } from "./components/Footer";
-import Nft from "./components/Nft";
 
 export function Widget() {
   const [tab, setTab] = useState(0);
@@ -37,11 +36,6 @@ export function Widget() {
     case 2:
       Component = (
         <Review uploadFile={uploadFile} imageURL={base64String} reset={reset} />
-      );
-      break;
-    case 3:
-      Component = (
-        <Nft uploadFile={uploadFile} imageURL={base64String} reset={reset} />
       );
       break;
     default:

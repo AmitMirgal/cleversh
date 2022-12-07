@@ -1,9 +1,6 @@
 import { ChevronRightIcon, HomeIcon } from "@heroicons/react/20/solid";
 
-const pages = [
-  { name: "Review", tab: 2, current: true },
-  { name: "NFT", tab: 3, current: false },
-];
+const pages = [{ name: "Review", tab: 2, current: true }];
 
 type NavigationProps = {
   setTab: (number: any) => void;

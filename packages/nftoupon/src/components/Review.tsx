@@ -1,6 +1,6 @@
-import Textarea from "./Textareas";
+import React, { useState } from "react";
 import { RocketLaunchIcon } from "@heroicons/react/20/solid";
-import { drawCanvas } from "../common/helper";
+import { toPng } from "html-to-image";
 
 type ReviewProps = {
   uploadFile: (event: any) => void;
@@ -10,39 +10,49 @@ type ReviewProps = {
 
 const Review = (props: ReviewProps) => {
   const { uploadFile, imageURL, reset } = props;
+  const [textAreaValue, setTextAreaValue] = useState("");
+
+  const testButton = () => {
+    const node: any = document.getElementById("preview-node");
+    toPng(node).then(function (dataUrl) {
+      console.log("inside the test file ", dataUrl);
+    });
+  };
 
   return (
     <>
-      <div className="mt-1 pb-5 sm:col-span-2 sm:mt-0">
-        <canvas
-          className="flex h-72 w-full justify-center rounded-md border-2 border-line border-gray-300 px-6 pt-5 pb-6"
-          id="canvas"
-        ></canvas>
+      <div
+        id="preview-node"
+        className="bg-gradient-to-r from-cyan-500 to-blue-500 min-h-[100px] flex w-full justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6"
+      >
+        <div className="space-y-1 text-center">
+          <div className="flex text-sm text-black font-bold">
+            {textAreaValue}
+          </div>
+        </div>
       </div>
 
-      <div className="pb-5 ">
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-gray-700 dark:text-white"
-        >
-          Title
+      <div className="-m-0.5 mt-3 rounded-lg p-0.5">
+        <label htmlFor="description" className="sr-only">
+          Description
         </label>
-        <div className="mt-1">
-          <input
-            type="text"
-            name="title"
-            id="title"
-            className="block w-full rounded-md dark:bg-slate-800 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="creative nft name"
+        <div>
+          <textarea
+            rows={5}
+            name="description"
+            id="description"
+            className="resize-none block w-full rounded-md border-gray-300  dark:text-white dark:bg-slate-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            placeholder="Add your description..."
+            value={textAreaValue}
+            onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setTextAreaValue(event.target.value)
+            }
           />
         </div>
       </div>
 
-      <Textarea />
-
       <button
         type="button"
-        onClick={drawCanvas}
         className="mt-3 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
       >
         Mint
