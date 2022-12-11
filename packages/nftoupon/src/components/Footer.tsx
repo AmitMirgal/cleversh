@@ -1,4 +1,7 @@
+import { UserCircleIcon } from "@heroicons/react/20/solid";
+
 const navigation = {
+  main: [{ name: "Profile", href: "#" }],
   social: [
     {
       name: "Twitter",
@@ -26,22 +29,41 @@ const navigation = {
 };
 
 export const Footer = () => (
-  <div className="md:flex md:items-center md:justify-between">
-    <div className="flex space-x-6 md:order-2">
-      {navigation.social.map((item) => (
-        <a
-          key={item.name}
-          href={item.href}
-          target="_blank"
-          className="text-gray-400 hover:text-gray-300"
-        >
-          <span className="sr-only">{item.name}</span>
-          <item.icon className="h-6 w-6" aria-hidden="true" />
-        </a>
-      ))}
+  <footer className="bg-white dark:bg-slate-800">
+    <div className="flex items-center justify-between">
+      <div className="flex space-x-2 order-2">
+        {navigation.social.map((item) => (
+          <a
+            key={item.name}
+            href={item.href}
+            target="_blank"
+            className="text-gray-400 hover:text-gray-300"
+          >
+            <span className="sr-only">{item.name}</span>
+            <item.icon className="h-5 w-5" aria-hidden="true" />
+          </a>
+        ))}
+        <span className="relative inline-flex">
+          <a
+            href={"item.href"}
+            className="inline-flex items-center font-semibold leading-6 rounded-md bg-white dark:bg-slate-800 transition ease-in-out duration-150"
+          >
+            {
+              <UserCircleIcon
+                className="h-5 w-5 text-gray-500"
+                aria-hidden="true"
+              />
+            }
+          </a>
+          <span className="flex absolute h-2 w-2 top-0 right-0 -mt-1 -mr-1">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          </span>
+        </span>
+      </div>
+      <p className="text-base text-gray-400 order-1">
+        &copy; widget by Company.
+      </p>
     </div>
-    <p className="mt-8 text-base text-gray-400 md:order-1 md:mt-0">
-      &copy; {new Date().getFullYear()} widget by eatozee.
-    </p>
-  </div>
+  </footer>
 );

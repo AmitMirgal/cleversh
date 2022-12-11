@@ -1,47 +1,108 @@
-import { ChevronRightIcon } from "@heroicons/react/20/solid";
+import React, { useEffect, useState } from "react";
+import { RocketLaunchIcon, WalletIcon } from "@heroicons/react/20/solid";
+import { toPng } from "html-to-image";
+import { useQuery } from "urql";
+import QRCode from "./QRCode";
+import get from "lodash/get";
+import isEmpty from "lodash/isEmpty";
+import isEqual from "lodash/isEqual";
+import { Connect, Subscription } from "../common/sdls";
 
 const Home = () => {
+  const [payloadUuid, setPayloadUuid] = useState<string>("");
+  const [result, fetch] = useQuery({
+    query: Connect,
+    pause: true,
+  });
+
+  const [subscriptionResult, subscribe] = useQuery({
+    query: Subscription,
+    variables: {
+      id: payloadUuid,
+    },
+    pause: true,
+  });
+
+  const { data, error, fetching } = result;
+  const { data: subscribedData, fetching: subscribedLoader } =
+    subscriptionResult;
+
+  const [textAreaValue, setTextAreaValue] = useState("");
+
+  const textToImage = () => {
+    const node: any = document.getElementById("description");
+    toPng(node).then(function (dataUrl) {
+      console.log("inside the test file ", dataUrl);
+    });
+  };
+
+  useEffect(() => {
+    const uuid = get(data, "connect.uuid");
+    !isEmpty(uuid) && setPayloadUuid(uuid);
+  }, [data]);
+
+  useEffect(() => {
+    if (!isEmpty(payloadUuid)) {
+      subscribe();
+    }
+  }, [payloadUuid]);
+
   return (
-    <>
-      <div className="pt-10 sm:pt-16 lg:overflow-hidden lg:pt-8 lg:pb-14">
-        <div className="mx-auto max-w-7xl lg:px-8">
-          <div>
-            <a
-              href="#"
-              className="inline-flex items-center rounded-full bg-black p-1 pr-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base"
-            >
-              <span className="rounded-full bg-gradient-to-r from-teal-500 to-cyan-600 px-3 py-0.5 text-sm font-semibold leading-5 text-white">
-                Profile page
-              </span>
-              <span className="ml-4 text-sm">Visit your page</span>
-              <ChevronRightIcon
-                className="ml-2 h-5 w-5 text-gray-500"
+    <div className="h-56">
+      {!isEmpty(get(data, "connect.refs.qr_png")) &&
+      !isEqual(get(subscribedData, "subscription.status"), "is signed") ? (
+        <QRCode imageUrl={get(data, "connect.refs.qr_png")} />
+      ) : (
+        <>
+          <div className="flex items-start justify-end pb-1">
+            {!isEmpty(get(subscribedData, "subscription.address")) ? (
+              <div className="inline-flex items-center rounded-full bg-black px-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base">
+                <span className="truncate w-20">
+                  {get(subscribedData, "subscription.address")}
+                </span>
+              </div>
+            ) : (
+              <WalletIcon
+                onClick={fetch}
+                className="h-5 w-5 mb-3 cursor-pointer"
                 aria-hidden="true"
               />
-            </a>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:mt-5 sm:text-6xl lg:mt-6 xl:text-6xl">
-              <span className="block">Nftoupon</span>
-              <span className="block bg-gradient-to-r from-teal-200 to-cyan-400 bg-clip-text pb-3 text-transparent sm:pb-5"></span>
-            </h1>
-            <blockquote>
-              <div>
-                <svg
-                  className="h-12 w-12 text-white opacity-25"
-                  fill="currentColor"
-                  viewBox="0 0 32 32"
-                  aria-hidden="true"
-                >
-                  <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                </svg>
-                <p className="text-base text-gray-300 sm:text-xl lg:text-lg xl:text-xl">
-                  A widget to generate NFTs.
-                </p>
-              </div>
-            </blockquote>
+            )}
           </div>
-        </div>
-      </div>
-    </>
+
+          <div className="rounded-lg">
+            <label htmlFor="description" className="sr-only">
+              Description
+            </label>
+            <div>
+              <textarea
+                rows={5}
+                name="description"
+                id="description"
+                className="resize-none block w-full rounded-md border-gray-300  dark:text-white dark:bg-slate-800 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                placeholder="Add your review..."
+                value={textAreaValue}
+                onChange={(event: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setTextAreaValue(event.target.value)
+                }
+              />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={fetch}
+            className="mt-3 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Mint
+            <RocketLaunchIcon
+              className="ml-3 -mr-1 h-5 w-5"
+              aria-hidden="true"
+            />
+          </button>
+        </>
+      )}
+    </div>
   );
 };
 
