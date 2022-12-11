@@ -1,3 +1,3 @@
-export { Creator } from "./Creator";
-export { Arbiter } from "./Arbiter";
-export { Collectibles } from "./Collectibles";
+import "./index.css";
+
+export { Widget } from "./widget";
