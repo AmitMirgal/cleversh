@@ -1,0 +1,44 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  created_at            DateTime? @default(now()) @db.Timestamptz(6)
+  roles                 String?   @db.VarChar
+  auth_user_id          String?   @db.Uuid
+  crypto_wallet_address String?   @db.VarChar
+  Project               Project[]
+}
+
+model Nftoupon {
+  id                     Int       @id(map: "nftoupon_pkey") @default(autoincrement())
+  name                   String?   @db.VarChar
+  description            String?   @db.VarChar
+  project_id             String    @db.Uuid
+  imageUrl               String?   @db.VarChar
+  status                 String?   @db.VarChar
+  offer                  String?   @db.VarChar
+  tokenId                String?   @db.VarChar
+  tokenOfferIndex        String?   @db.VarChar
+  created_at             DateTime? @default(now()) @db.Timestamp(6)
+  creator_wallet_address String?   @db.VarChar
+  Project                Project   @relation(fields: [project_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Project {
+  id          String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String?    @db.VarChar
+  description String?    @db.VarChar
+  created_at  DateTime?  @db.Timestamp(6)
+  updated_at  DateTime?  @db.Timestamp(6)
+  user_id     String?    @db.Uuid
+  User        User?      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Nftoupon    Nftoupon[]
+}

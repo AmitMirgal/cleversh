@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "@redwoodjs/api": "^3.6.0",
+    "@redwoodjs/graphql-server": "^3.6.0",
+    "stellate": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.190",
+    "lodash": "^4.17.21",
+    "nft.storage": "^7.0.0",
+    "node-fetch": "^3.3.0",
+    "ripple-binary-codec": "^1.5.0-beta.2",
+    "verify-xrpl-signature": "^0.4.1",
+    "xrpl": "^2.6.0",
+    "xrpl-txdata": "^1.2.1",
+    "xumm-sdk": "^1.7.0"
+  }
+}

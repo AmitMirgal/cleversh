@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/playground"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --no-cache --parallel --continue",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "supabase:start": "cd apps/supabase && supabase start",
+    "supabase:stop": "cd apps/supabase && supabase stop",
+    "supabase:edge": "cd apps/supabase && supabase functions serve xumm-connect --env-file ./supabase/.env",
+    "dashboard:start": "cd apps/dashboard && yarn rw dev",
+    "dashboard:build": "cd apps/dashboard && yarn rw build"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-react": "^7.30.0",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.22.0",
+    "@docusaurus/theme-search-algolia": "^2.0.0-beta.21",
+    "eslint-config-prettier": "^8.5.0"
+  }
+}

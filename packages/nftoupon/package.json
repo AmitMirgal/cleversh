@@ -1,0 +1,41 @@
+{
+  "name": "nftoupon",
+  "version": "2.0.4",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx --minify --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.tsx --minify --format esm,cjs --watch --dts --external react",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {
+    "@headlessui/react": "^1.7.4",
+    "@heroicons/react": "^2.0.13",
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/canvas-confetti": "^1.6.0",
+    "@types/lodash": "^4.14.189",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "autoprefixer": "^10.4.13",
+    "canvas-confetti": "^1.6.0",
+    "graphql": "^16.6.0",
+    "html-to-image": "^1.11.1",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.19",
+    "react": "^18.2.0",
+    "react-hot-toast": "^2.4.0",
+    "tailwindcss": "^3.2.4",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.3",
+    "urql": "^3.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
