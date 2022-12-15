@@ -10,24 +10,6 @@ jobs:
         with:
           access_token: ${{ github.token }}
 
-  lint:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: "npm"
-          node-version: 16
-      # >>> Install your own deps here (npm install, etc) <<<
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@v1
-        with:
-          cache: false
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
   build:
     runs-on: ubuntu-18.04
     steps:
@@ -50,22 +32,3 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: Build
         run: npm run build
-
-  tests:
-    needs: [lint, build]
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: "npm"
-          node-version: 16
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      - name: Test
-        run: npm test
-      - uses: codecov/codecov-action@v2
-        with:
-          directory: "./packages/react"

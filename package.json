@@ -12,7 +12,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "supabase:start": "cd apps/supabase && supabase start",
     "supabase:stop": "cd apps/supabase && supabase stop",
-    "supabase:edge": "cd apps/supabase && supabase functions serve xumm-connect --env-file ./supabase/.env",
+    "supabase:edge": "cd apps/supabase && supabase functions serve xumm-connect --no-verify-jwt --env-file ./supabase/.env",
     "dashboard:start": "cd apps/dashboard && yarn rw dev",
     "dashboard:build": "cd apps/dashboard && yarn rw build"
   },

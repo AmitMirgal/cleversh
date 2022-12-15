@@ -1,69 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { RocketLaunchIcon, WalletIcon } from "@heroicons/react/20/solid";
 import { toPng } from "html-to-image";
-import { useQuery } from "urql";
 import QRCode from "./QRCode";
 import get from "lodash/get";
 import isEmpty from "lodash/isEmpty";
-import isEqual from "lodash/isEqual";
-import { Connect, Subscription } from "../common/sdls";
 
 const Home = () => {
-  const [payloadUuid, setPayloadUuid] = useState<string>("");
-  const [result, fetch] = useQuery({
-    query: Connect,
-    pause: true,
-  });
-
-  const [subscriptionResult, subscribe] = useQuery({
-    query: Subscription,
-    variables: {
-      id: payloadUuid,
-    },
-    pause: true,
-  });
-
-  const { data, error, fetching } = result;
-  const { data: subscribedData, fetching: subscribedLoader } =
-    subscriptionResult;
-
+  const [xummPayload, setXummPayload] = useState<any>("");
   const [textAreaValue, setTextAreaValue] = useState("");
+
+  const connectWallet = () => {
+    const evtSource = new EventSource(
+      "http://localhost:54321/functions/v1/xumm-connect"
+    );
+
+    evtSource.onmessage = (event) => {
+      setXummPayload(JSON.parse(event.data));
+      const isSigned = get(JSON.parse(event.data), "meta.signed");
+      isSigned && evtSource.close();
+    };
+  };
 
   const textToImage = () => {
     const node: any = document.getElementById("description");
     toPng(node).then(function (dataUrl) {
-      console.log("inside the test file ", dataUrl);
+      console.log("textToImage:: dataUrl -> ", dataUrl);
     });
   };
 
-  useEffect(() => {
-    const uuid = get(data, "connect.uuid");
-    !isEmpty(uuid) && setPayloadUuid(uuid);
-  }, [data]);
-
-  useEffect(() => {
-    if (!isEmpty(payloadUuid)) {
-      subscribe();
-    }
-  }, [payloadUuid]);
-
   return (
     <div className="h-56">
-      {!isEmpty(get(data, "connect.refs.qr_png")) &&
-      !isEqual(get(subscribedData, "subscription.status"), "is signed") ? (
-        <QRCode imageUrl={get(data, "connect.refs.qr_png")} />
+      {!isEmpty(get(xummPayload, "qr_png")) ? (
+        <QRCode imageUrl={get(xummPayload, "qr_png")} />
       ) : (
         <>
-          <div className="flex items-start justify-end pb-1">
-            {!isEmpty(get(subscribedData, "subscription.address")) ? (
+          <div className="flex items-start justify-end pb-2">
+            {!isEmpty(get(xummPayload, "response.account")) ? (
               <div className="inline-flex items-center rounded-full bg-black px-2 text-white hover:text-gray-200 sm:text-base lg:text-sm xl:text-base">
                 <span className="truncate w-20">
-                  {get(subscribedData, "subscription.address")}
+                  {get(xummPayload, "response.account")}
                 </span>
               </div>
             ) : (
               <WalletIcon
-                onClick={fetch}
+                onClick={connectWallet}
                 className="h-5 w-5 mb-3 cursor-pointer"
                 aria-hidden="true"
               />
@@ -91,7 +71,6 @@ const Home = () => {
 
           <button
             type="button"
-            onClick={fetch}
             className="mt-3 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Mint

@@ -30,6 +30,8 @@ serve(async (_) => {
         `data: ${JSON.stringify(parsedPayload)}\r\n\r\n`
       );
 
+      controller.enqueue(createdPayloadMsg);
+
       const subscription = await Sdk.payload.subscribe(
         parsedPayload.uuid,
         async (event) => {
@@ -47,23 +49,18 @@ serve(async (_) => {
               `data: ${JSON.stringify(payload)}\r\n\r\n`
             );
             controller.enqueue(payloadMsg);
-
-            // Resolve & close the subscription
-            return true;
           }
         }
       );
-
-      controller.enqueue(createdPayloadMsg);
     },
     cancel(reason) {
-      // this is called when the reader close the stream
-      console.log("inside the cancel call", reason);
+      console.log("inside the cancel call ==>>> ", reason);
     },
   });
   return new Response(body, {
     headers: {
       "Content-Type": "text/event-stream",
+      "Access-Control-Allow-Origin": "*",
     },
   });
 });
