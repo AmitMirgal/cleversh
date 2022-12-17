@@ -71,13 +71,14 @@ const DEFAULT_PROJECT_DETAILS = {
   },
 }
 
-const xumm = new XummPkce('ed0c8071-3050-4e34-bd50-af7cf77d2462', {
+const xumm = new XummPkce(process.env.XUMM_PKCE, {
   implicit: true,
-  redirectUrl: 'http://localhost:8910/settings',
+  redirectUrl: process.env.XUMM_PKCE_REDIRECT_URL,
 })
 
 const SettingsPage = () => {
   const { client, isAuthenticated, userMetadata } = useAuth()
+
   const {
     register,
     handleSubmit,

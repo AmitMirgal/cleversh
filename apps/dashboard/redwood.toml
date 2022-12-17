@@ -9,7 +9,7 @@
   title = "nftoupon"
   port = 8910
   apiUrl = "/api"
-  includeEnvironmentVariables = ['SUPABASE_URL', 'SUPABASE_KEY']
+  includeEnvironmentVariables = ['SUPABASE_URL', 'SUPABASE_KEY', 'XUMM_PKCE', 'XUMM_PKCE_REDIRECT_URL']
 [api]
   port = 8911
 [browser]

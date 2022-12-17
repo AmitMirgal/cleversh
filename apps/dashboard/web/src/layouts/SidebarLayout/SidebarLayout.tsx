@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -129,7 +129,21 @@ function classNames(...classes) {
 
 export default function SidebarLayout({ children }: SidebarLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const { logOut } = useAuth()
+  const { client, logOut } = useAuth()
+
+  console.log(client)
+
+  useEffect(() => {
+    const socket = client.realtime
+    socket.connect()
+    const channel = socket.channel('public:Nftoupon')
+    channel.on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'Nftoupon' },
+      (e) => console.log('payload ==>>> ', e)
+    )
+    channel.subscribe()
+  }, [])
 
   const navigation = [
     {
