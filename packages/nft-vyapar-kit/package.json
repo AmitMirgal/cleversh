@@ -1,0 +1,42 @@
+{
+  "name": "nft-vyapar-kit",
+  "version": "1.1.7",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "license": "MIT",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx --minify --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.tsx --minify --format esm,cjs --watch --dts --external react",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.3",
+    "@types/lodash": "^4.14.189",
+    "@types/react": "^18.0.27",
+    "@types/react-dom": "^18.0.10",
+    "autoprefixer": "^10.4.13",
+    "lodash": "^4.17.21",
+    "postcss": "^8.4.19",
+    "postcss-import": "^15.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.2.7",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.5",
+    "@heroicons/react": "^2.0.16",
+    "react-hot-toast": "^2.4.0",
+    "@headlessui/react": "^1.7.13"
+  },
+  "peerDependencies": {
+    "@heroicons/react": "^2.0.16",
+    "@headlessui/react": "^1.7.13"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

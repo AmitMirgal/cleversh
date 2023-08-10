@@ -1,0 +1,29 @@
+{
+  "name": "nft-vyapar",
+  "version": "1.1.5",
+  "description": "nft-vyapar engine package",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsup src/index.ts --minify --format esm,cjs --dts"
+  },
+  "devDependencies": {
+    "buffer": "^6.0.3",
+    "tsup": "^6.6.3",
+    "typescript": "^4.9.5",
+    "@types/lodash": "^4.14.189",
+    "lodash": "^4.17.21",
+    "nft.storage": "^7.0.3",
+    "xrpl": "^2.7.0",
+    "ripple-address-codec": "^4.2.5",
+    "node-fetch": "^3.3.1",
+    "xumm-sdk": "^1.8.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  }
+}

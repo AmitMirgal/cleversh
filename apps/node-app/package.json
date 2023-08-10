@@ -1,0 +1,14 @@
+{
+  "name": "nodeapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/index.js"
+  },
+  "devDependencies": {
+    "nft-vyapar": "*"
+  },
+  "author": "",
+  "license": "ISC"
+}

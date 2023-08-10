@@ -1,73 +1,119 @@
-# nftoupon
+# nftvyapar
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Utilize the power of AI with our widget to effortlessly create NFTs 🖼️
 
-**Note - The widget is on Testnet (xls20-sandbox.rippletest.net:51233), the development is in progress.**
+![nftvyapar-textarea](https://user-images.githubusercontent.com/19601060/226515817-1a4613d0-5173-440e-acfb-c769d45a8a31.png)
 
-Widget will help you to generate NFTs on XRPL which in turn you can use as coupons, which we call NFToupons
+**Disclaimer** - Our widget does not have built-in AI capabilities, but it does offer an AI button that allows users to incorporate their own AI use cases.
 
-## Milestone
+We have two packages, which are as follows:
 
-[NFToupon milestone](https://github.com/eatozee/nftoupon/blob/master/MILESTONE.md)
+- `nft-vyapar` offers following modules
+    - getTokenId
+    - mint
+    - sellOffer
+    - acceptSellOffer
 
-## Development setup
+- `nft-vyapar-kit` offers following components
+    - Textarea
+    - SellNFT
 
-> Make sure you have node 16 and npm version >= 7, we use [turbo repo](https://turborepo.org/) for the project.
+# Features
 
-- fork and clone it
-- cd nftoupon
-- npm install
-- npm run dev
+#### `nft-vyapar`
+- The function `getTokenId` assists in retrieving the token ID of either a created NFT or a NFT that is offered for sale at a specific address.
+- `mint` function to mint an NFT is to create it.
+- The `sellOffer` function is utilized to generate an offer for a particular NFT at a designated address.
+- The `acceptSellOffer` function is employed to accept an NFT that has been offered to the user's wallet address.
 
-## Installing NFToupon
+#### `nft-vyapar-kit`
+- The `Textarea` component allows the user to generate an NFT with or without the capability of utilizing AI. Textarea does not have built-in AI capabilities, but it does offer an AI button that allows users to incorporate their own AI use cases.
+- The `SellNFT` component permits the user to sell the NFT at a preferred price to a destination address.
 
-You can install this module as a component from NPM:
+# Installation
 
-> npm i nftoupon
-
-## Getting Started
-
-You will require a unique `NFToupon-KEY` to use it in your project build. You can contact `admin@eatozee.com` to get your unique `NFToupon-KEY`.
-
-## Usage
-
-To start using the components, please follow these steps:
-
-1. Wrap your application with the `Creator`, `Arbiter` & `Collectibles` components provided by
-   **nftoupon**.
-
-```jsx
-import { Creator, Arbiter, Collectibles } from "nftoupon";
+```bash
+npm i nft-vyapar-kit nft-vyapar
 ```
 
-2. Now you can start using components like so!:
+# Usage
+
+To start using the `nft-vyapar-kit` package component, please following these steps:
 
 ```jsx
-import { Arbiter } from "nftoupon";
+import { Textarea } from "nft-vyapar-kit";
+import styles from "nft-vyapar-kit/dist/index.css";
 
-const ExampleOne = () => <Arbiter NFToupon_Key="your-api-key" />;
-```
-
-```jsx
-import { Creator } from "nftoupon";
-
-const ExampleOne = () => <Creator NFToupon_Key="your-api-key" />;
+<Textarea
+    callbackUrl="callback-url"
+    callbackFn={() => {}}
+/>
 ```
 
 ```jsx
-import { Collectibles } from "nftoupon";
+import { SellNFT } from "nft-vyapar-kit";
+import styles from "nft-vyapar-kit/dist/index.css";
 
-const ExampleOne = () => <Collectibles NFToupon_Key="your-api-key" />;
+<SellNFT
+    address="wallet-address"
+    amount="10"
+    destinationAddress="destination-wallet-address"
+    description={"something..."}
+    tokenId={"created-nft-tokenId"}
+    callbackUrl="callback-url"
+    callbackFn={() => {}}
+/>
 ```
 
-## Demo Videos
+To start using the `nft-vyapar` package module, please following these steps:
 
-### Link below is the demo on how to use `Merchant` component
+```js
+import { getTokenId } from "nft-vyapar";
 
-1. https://www.youtube.com/watch?v=rcRr2Z4MXC0
+// use case 1, to get created nft token id
+const tokenId = await getTokenId("wallet-address", "null");
 
-### Link below is the demo on how to use `Creator` component
+// use case 2, to get sell offer tokenIndexOffer id
+const tokenId = await getTokenId("wallet-address", "token-id");
+```
 
-2. https://www.youtube.com/watch?v=s-01b1TpxJI
+```js
+import { acceptSellOffer } from "nft-vyapar";
 
-**Note: You will then require a `NFToupon-KEY` to use it in your project build. You can contact `admin@eatozee.com` to get your unique `NFToupon-KEY`.**
+const result = await acceptSellOffer(
+    "wallet-address-seed",
+    "token-offer-index"
+  );
+```
+
+```js
+import { mint } from "nft-vyapar";
+
+const payload = await mint({
+    file,
+    address: "wallet-address",
+    description: "something",
+    secrets: {
+        NFT_STORAGE_TOKEN: process.env.NFT_STORAGE_TOKEN,
+        XUMM_APIKEY: process.env.XUMM_APIKEY,
+        XUMM_APISECRET: process.env.XUMM_APISECRET,
+    },
+});
+```
+
+```js
+import { sellOffer } from "nft-vyapar";
+
+const payload = await sellOffer({
+    address,
+    destinationAddress,
+    tokenId,
+    description,
+    amount,
+    secrets: {
+        NFT_STORAGE_TOKEN: process.env.NFT_STORAGE_TOKEN,
+        XUMM_APIKEY: process.env.XUMM_APIKEY,
+        XUMM_APISECRET: process.env.XUMM_APISECRET,
+    },
+});
+```

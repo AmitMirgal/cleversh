@@ -1,0 +1,15 @@
+{
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "display": "Default",
+    "compilerOptions": {
+      "target": "esnext",
+      "module": "esnext",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "moduleResolution": "node",
+      "skipLibCheck": true,
+      "strict": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }

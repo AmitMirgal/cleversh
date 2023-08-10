@@ -1,71 +1,40 @@
-name: CI
-on: [push]
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize]
+    branches: ["main"]
+
 jobs:
-  avoid_reduncy:
-    runs-on: ubuntu-18.04
-    if: ${{ github.event_name == 'push' }}
-    steps:
-      - name: Cancel Previous Redundant Builds
-        uses: styfle/cancel-workflow-action@0.9.1
-        with:
-          access_token: ${{ github.token }}
-
-  lint:
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: "npm"
-          node-version: 16
-      # >>> Install your own deps here (npm install, etc) <<<
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@v1
-        with:
-          cache: false
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
   build:
-    runs-on: ubuntu-18.04
+    name: Build
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
+          fetch-depth: 2
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
         with:
+          node-version: ${{ matrix.node-version }}
           cache: "npm"
-          node-version: 16
+
       - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      - uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/.next/cache
-          # Generate a new cache whenever packages or source files change.
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+        run: npm install
+
       - name: Build
         run: npm run build
-
-  tests:
-    needs: [lint, build]
-    runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          cache: "npm"
-          node-version: 16
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-      - name: Test
-        run: npm test
-      - uses: codecov/codecov-action@v2
-        with:
-          directory: "./packages/react"
